@@ -154,31 +154,34 @@
 
     <iframe id="mapa" class="map-box" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d35000!2d-72.3!3d-51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiUyA3MsKwMTgnMDAuMCJX!5e0!3m2!1ses!2sar!4v1710000000000"></iframe>
 
-    <div id="monumentos">
+   <div id="monumentos">
         
-        <article class="card" id="minero">
-          <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" class="card-img" alt="Monumento al Minero">
-            <div class="card-content">
-                <span class="card-tag">🔊 Escuchar Historia</span>
-                <h3>Monumento al Minero</h3>
-                <audio controls>
-                    <source src="monumento al minero audio guía.m4a" type="audio/mpeg">
-                </audio>
-                <div class="extra-box">
-                    <h4>🍴 Dónde comer cerca:</h4>
-                    <p>Parrilla "El Minero" a 150 metros.</p>
-                </div>
-            </div>
-        </article>
+        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
+            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
+            <h3>Minero</h3>
+        </div>
 
-        <article class="card" id="duendes">
-            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Bosque de Duendes">
-            <div class="card-content">
-                <span class="card-tag">🔊 Escuchar Historia</span>
-                <h3>Bosque de Duendes</h3>
-                <audio controls>
-                    <source src="URL_AUDIO_2.mp3" type="audio/mpeg">
-                </audio>
+        <div class="card-mini" onclick="playAudio('URL_AUDIO_2.mp3', 'Bosque de Duendes')">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" alt="Duendes">
+            <h3>Duendes</h3>
+        </div>
+
+        </div>
+
+    <div class="player-container">
+        <p id="playing-title">Seleccioná un punto para escuchar</p>
+        <audio id="main-player" controls style="width: 100%;"></audio>
+    </div>
+
+    <script>
+        function playAudio(url, title) {
+            const player = document.getElementById('main-player');
+            const titleDisplay = document.getElementById('playing-title');
+            player.src = url;
+            titleDisplay.innerText = "Escuchando: " + title;
+            player.play();
+        }
+    </script>
                 <div class="extra-box">
                     <h4>❄️ Actividad cerca:</h4>
                     <p>Centro Valdelén e inicio de senderos.</p>
