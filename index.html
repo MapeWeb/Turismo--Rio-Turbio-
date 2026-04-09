@@ -90,4 +90,86 @@
     <div id="hoteles" class="page">
         <div class="grid-universal">
             <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Un hotel con historia en la cuenca, ambiente familiar y excelente atención.')">
-                <img src="
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150">
+                <h3>Hotel Capipe</h3>
+            </div>
+            <div class="card-mini" onclick="verDetalle('Hospedaje El Viento', 'https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=600', '📍 Calle Fagnano 23', '📞 2902 42-1500', 'Hospedaje acogedor, ideal para viajeros que buscan comodidad y cercanía al centro.')">
+                <img src="https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=150">
+                <h3>Hospedaje El Viento</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="gastronomia" class="page">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Resto El Galpón', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', '📍 Av. de los Mineros 300', '🍴 Pastas y Carnes', 'El lugar de encuentro por excelencia con platos abundantes y caseros.')">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=150">
+                <h3>Resto El Galpón</h3>
+            </div>
+            <div class="card-mini" onclick="verDetalle('Parrilla Nono', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600', '📍 Ruta Complementaria 20', '🍴 Parrilla Libre', 'Famosa por su asado y cordero al palo. Un clásico que no podés dejar de visitar.')">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=150">
+                <h3>Parrilla Nono</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="modulo-detalle" class="page">
+        <button class="btn-volver" onclick="volverALista()">← Volver</button>
+        <div class="detalle-comercio">
+            <div class="detalle-header"><img id="det-img" src=""></div>
+            <div class="detalle-body">
+                <h2 id="det-titulo"></h2>
+                <div class="info-item" id="det-ubicacion" style="font-weight: bold; color: var(--accent);"></div>
+                <div class="info-item" id="det-contacto" style="color: #666;"></div>
+                <hr>
+                <p id="det-descripcion" style="line-height: 1.5;"></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="fixed-player">
+    <p id="playing-title">Seleccioná un punto para escuchar</p>
+    <audio id="global-player" controls style="width:100%;"></audio>
+</div>
+
+<script>
+    let pestanaActual = 'audioguias';
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        const btn = document.getElementById('btn-' + pageId);
+        if (btn) {
+            btn.classList.add('active');
+            pestanaActual = pageId;
+        }
+    }
+
+    function verDetalle(titulo, img, ubicacion, contacto, desc) {
+        document.getElementById('det-titulo').innerText = titulo;
+        document.getElementById('det-img').src = img;
+        document.getElementById('det-ubicacion').innerText = ubicacion;
+        document.getElementById('det-contacto').innerText = contacto;
+        document.getElementById('det-descripcion').innerText = desc;
+        showPage('modulo-detalle');
+    }
+
+    function volverALista() { showPage(pestanaActual); }
+
+    function playAudio(card, url, title) {
+        document.querySelectorAll('.card-mini').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        const player = document.getElementById('global-player');
+        const titleBox = document.getElementById('playing-title');
+        if (!url) { titleBox.innerText = "Audio no disponible: " + title; return; }
+        player.src = url;
+        titleBox.innerText = "Escuchando: " + title;
+        player.play();
+    }
+</script>
+
+</body>
+</html>
