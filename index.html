@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #004a8c; /* Azul Minero */
-            --accent: #f39c12; /* Naranja Otoño */
+            --primary: #004a8c; 
+            --accent: #f39c12; 
             --bg: #f0f2f5;
             --light: #ffffff;
         }
@@ -16,7 +16,7 @@
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding-bottom: 120px; /* Espacio para que el reproductor no tape las fotos */
+            padding-bottom: 140px; /* Espacio extra para el reproductor */
             background-color: var(--bg);
         }
 
@@ -53,11 +53,11 @@
 
         .container { padding: 15px; max-width: 800px; margin: auto; }
 
-        /* Rejilla de Miniaturas */
+        /* REJILLA FORZADA: 5 columnas en PC, 2 en Celular */
         #monumentos {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); 
-            gap: 10px;
+            display: grid !important; 
+            grid-template-columns: repeat(5, 1fr) !important; 
+            gap: 10px !important;
             margin-top: 10px;
         }
 
@@ -68,19 +68,14 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s;
             border: 2px solid transparent;
         }
 
-        .card-mini:active { 
-            transform: scale(0.95); 
-            border-color: var(--accent);
-        }
-
         .card-mini img {
-            width: 100%;
-            height: 85px;
-            object-fit: cover;
+            width: 100% !important;
+            height: 85px !important;
+            object-fit: cover !important;
+            display: block;
         }
 
         .card-mini h3 {
@@ -94,7 +89,6 @@
             line-height: 1.1;
         }
 
-        /* Reproductor Fijo Abajo */
         .fixed-player {
             position: fixed;
             bottom: 0;
@@ -115,9 +109,8 @@
             text-align: center;
         }
 
-        /* Ajuste para celulares */
         @media (max-width: 600px) {
-            #monumentos { grid-template-columns: repeat(2, 1fr); }
+            #monumentos { grid-template-columns: repeat(2, 1fr) !important; }
         }
     </style>
 </head>
@@ -165,7 +158,7 @@
 <script>
     function playAudio(url, title) {
         if(!url) {
-            alert("Audio no disponible todavía para este punto");
+            alert("Audio no disponible todavía");
             return;
         }
         const player = document.getElementById('global-player');
