@@ -1,59 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Río Turbio - Guía Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #004a8c; /* Azul Minero */
+            --accent: #f39c12; /* Naranja Otoño */
+            --bg: #f0f2f5;
+            --light: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-bottom: 100px; /* Espacio para el reproductor fijo */
+            background-color: var(--bg);
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+
+        nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+        }
+
+        nav a {
+            background: var(--light);
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+
+        /* Mapa */
+        .map-box {
+            width: 100%;
+            height: 200px;
+            background: #ddd;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Rejilla de Miniaturas */
+        #monumentos {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 10px;
+        }
+
+        .card-mini {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .card-mini:active { 
+            transform: scale(0.95); 
+            border-color: var(--accent);
+        }
+
+        .card-mini img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .card-mini h3 {
+            font-size: 0.65rem;
+            margin: 5px 2px;
+            color: var(--primary);
+            height: 30px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Reproductor Fijo Abajo */
+        .fixed-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+            z-index: 1000;
+        }
+
+        #playing-title {
+            margin: 0 0 8px 0;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        /* Ajuste para celulares */
+        @media (max-width: 600px) {
+            #monumentos { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Río Turbio</h1>
+    <p>Turismo Inteligente 2026</p>
+</header>
+
+<nav>
+    <a href="#mapa">🗺️ Mapa</a>
+    <a href="#monumentos">🔊 Audioguías</a>
+    <a href="#">🏨 Hoteles</a>
+    <a href="#">🍴 Comida</a>
+</nav>
+
 <div class="container">
-    
-    <section id="mapa-recorrido" style="margin-bottom: 50px;">
-        <h2 class="section-title">Mapa del Recorrido</h2>
-        <div style="overflow:hidden; padding-bottom:56.25%; position:relative; height:0; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.7000!2d-72.3000!3d-51.5333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMyJzAwLjAiUyA3MsKwMTgnMDAuMCJX!5e0!3m2!1ses!2sar!4v1647450000000!5m2!1ses!2sar" 
-                width="600" height="450" style="border:0; position:absolute; left:0; top:0; width:100%; height:100%;" allowfullscreen="" loading="lazy"></iframe>
+    <iframe id="mapa" class="map-box" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d35000!2d-72.3!3d-51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiUyA3MsKwMTgnMDAuMCJX!5e0!3m2!1ses!2sar!4v1712680000000"></iframe>
+
+    <div id="monumentos">
+        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
+            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
+            <h3>Monumento al Minero</h3>
         </div>
-    </section>
 
-    <h2 class="section-title">Puntos de Interés</h2>
-    <div class="grid">
-        
-        <article class="card" id="monumento-minero">
-            <img src="https://via.placeholder.com/500x300?text=Monumento+al+Minero" class="card-img" alt="Monumento al Minero">
-            <div class="card-body">
-                <span class="tag tag-audio">🔊 Escuchar ahora</span>
-                <h3>Monumento al Minero</h3>
-                <p>Ubicado en el centro cívico, es el símbolo máximo de nuestra identidad.</p>
-                
-                <audio controls class="audio-player" id="audio1">
-                    <source src="AUDIOS/monumento_minero.mp3" type="audio/mpeg">
-                </audio>
+        <div class="card-mini" onclick="playAudio('URL_AUDIO_2.mp3', 'Bosque de Duendes')">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" alt="Duendes">
+            <h3>Bosque de Duendes</h3>
+        </div>
 
-                <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; margin-top: 15px;">
-                    <p style="margin: 0; font-size: 0.9rem;"><strong>¿Qué hay cerca?</strong></p>
-                    <ul style="font-size: 0.85rem; padding-left: 20px;">
-                        <li>🍴 Parrilla El Minero (a 100m)</li>
-                        <li>🏨 Hostal de la Sierra (a 250m)</li>
-                    </ul>
-                    <a href="#gastronomia" class="btn" style="background: var(--secondary); font-size: 0.8rem;">Ver toda la gastronomía</a>
-                </div>
-            </div>
-        </article>
+        <div class="card-mini" onclick="playAudio('', 'Punto 3')">
+            <img src="https://via.placeholder.com/150" alt="Punto 3">
+            <h3>Punto 3</h3>
+        </div>
 
-        <article class="card" id="bosque-duendes">
-            <img src="https://via.placeholder.com/500x300?text=Bosque+de+Duendes" class="card-img" alt="Bosque de Duendes">
-            <div class="card-body">
-                <span class="tag tag-audio">🔊 Escuchar ahora</span>
-                <h3>Bosque de Duendes</h3>
-                <p>Un paseo por la naturaleza y el arte local tallado en lenga.</p>
-                
-                <audio controls class="audio-player">
-                    <source src="AUDIOS/bosque_duendes.mp3" type="audio/mpeg">
-                </audio>
+        <div class="card-mini" onclick="playAudio('', 'Punto 4')">
+            <img src="https://via.placeholder.com/150" alt="Punto 4">
+            <h3>Punto 4</h3>
+        </div>
 
-                <div style="background: #fdf2e9; padding: 10px; border-radius: 8px; margin-top: 15px;">
-                    <p style="margin: 0; font-size: 0.9rem;"><strong>¿Qué hay cerca?</strong></p>
-                    <ul style="font-size: 0.85rem; padding-left: 20px;">
-                        <li>🥾 Sendero de las Cascadas</li>
-                        <li>☕ Cafetería Valdelén (en temporada)</li>
-                    </ul>
-                    <a href="#actividades" class="btn" style="background: var(--secondary); font-size: 0.8rem;">Ver más actividades</a>
-                </div>
-            </div>
-        </article>
+        <div class="card-mini" onclick="playAudio('', 'Punto 5')">
+            <img src="https://via.placeholder.com/150" alt="Punto 5">
+            <h3>Punto 5</h3>
+        </div>
 
+        <div class="card-mini" onclick="playAudio('', 'Punto 6')">
+            <img src="https://via.placeholder.com/150" alt="Punto 6">
+            <h3>Punto 6</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 7')">
+            <img src="https://via.placeholder.com/150" alt="Punto 7">
+            <h3>Punto 7</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 8')">
+            <img src="https://via.placeholder.com/150" alt="Punto 8">
+            <h3>Punto 8</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 9')">
+            <img src="https://via.placeholder.com/150" alt="Punto 9">
+            <h3>Punto 9</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 10')">
+            <img src="https://via.placeholder.com/150" alt="Punto 10">
+            <h3>Punto 10</h3>
+        </div>
     </div>
 </div>
+
+<div class="fixed-player">
+    <p id="playing-title">Seleccioná un punto para escuchar</p>
+    <audio id="global-player" controls style="width: 100%;"></audio>
+</div>
+
+<script>
+    function playAudio(url, title) {
+        if(!url) {
+            alert("Audio no disponible todavía");
+            return;
+        }
+        const player = document.getElementById('global-player');
+        const displayTitle = document.getElementById('playing-title');
+        player.src = url;
+        displayTitle.innerText = "Escuchando: " + title;
+        player.play();
+    }
+</script>
+
+</body>
+</html>
