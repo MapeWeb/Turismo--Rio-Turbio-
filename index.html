@@ -1,294 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Río Turbio - Guía Inteligente</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Río Turbio - Guía Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; --light: #ffffff;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 140px; background-color: var(--bg); }
 
-<style>
-:root {
-    --primary: #004a8c; 
-    --accent: #f39c12; 
-    --bg: #f0f2f5;
-    --light: #ffffff;
-}
+        header { background: var(--primary); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
 
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding-bottom: 140px;
-    background-color: var(--bg);
-}
+        nav { display: flex; justify-content: center; padding: 15px; gap: 10px; position: sticky; top: 0; z-index: 100; background: var(--bg); }
 
-/* HEADER */
-header {
-    background: var(--primary);
-    color: white;
-    padding: 25px 15px;
-    text-align: center;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-}
+        nav button { background: var(--light); color: var(--primary); border: none; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
 
-/* NAV */
-nav {
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-    gap: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-}
+        nav button.active { background: var(--primary); color: white; }
 
-nav button {
-    background: var(--light);
-    color: var(--primary);
-    border: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-}
+        .container { padding: 15px; max-width: 900px; margin: auto; }
 
-nav button.active {
-    background: var(--primary);
-    color: white;
-}
+        .page { display: none; animation: fade 0.3s ease; }
+        .page.active { display: block; }
 
-/* CONTENEDOR */
-.container {
-    padding: 15px;
-    max-width: 900px;
-    margin: auto;
-}
+        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* PÁGINAS */
-.page { display: none; animation: fade 0.3s ease; }
-.page.active { display: block; }
+        /* GRID REUTILIZABLE */
+        .grid-universal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 
-@keyframes fade {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .card-mini { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+        .card-mini:hover { transform: translateY(-3px); }
+        .card-mini img { width: 100%; height: 85px; object-fit: cover; }
+        .card-mini h3 { font-size: 0.65rem; margin: 5px; color: var(--primary); }
 
-/* GRID */
-#monumentos-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-}
+        /* FICHA DE DETALLE (EL NUEVO MÓDULO) */
+        .detalle-comercio { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .detalle-comercio img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
+        .detalle-comercio h2 { color: var(--primary); margin: 15px 0 5px 0; }
+        .btn-volver { background: #eee; border: none; padding: 8px 15px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
 
-/* TARJETAS */
-.card-mini {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-    border: 2px solid transparent;
-}
+        .fixed-player { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); border-top: 4px solid var(--primary); z-index: 1000; }
+        #playing-title { text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 5px;}
 
-.card-mini:hover {
-    transform: translateY(-3px);
-}
-
-.card-mini.active {
-    border: 2px solid var(--accent);
-}
-
-.card-mini img {
-    width: 100%;
-    height: 85px;
-    object-fit: cover;
-}
-
-.card-mini h3 {
-    font-size: 0.65rem;
-    margin: 5px;
-    color: var(--primary);
-}
-
-/* INFO CARDS */
-.info-card {
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.info-card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-.info-text h3 {
-    margin: 0;
-    color: var(--primary);
-}
-
-.info-text p {
-    margin: 5px 0 0;
-    font-size: 0.85rem;
-}
-
-/* PLAYER */
-.fixed-player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 15px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-    border-top: 4px solid var(--primary);
-}
-
-#playing-title {
-    text-align: center;
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: var(--primary);
-}
-
-/* MENSAJE */
-.toast {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #999;
-}
-
-/* RESPONSIVE */
-@media (max-width: 600px) {
-    #monumentos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-</style>
+        @media (max-width: 600px) { .grid-universal { grid-template-columns: repeat(2, 1fr); } }
+    </style>
 </head>
-
 <body>
 
 <header>
-<h1>Río Turbio</h1>
-<p>Turismo Inteligente 2026</p>
+    <h1>Río Turbio</h1>
+    <p>Turismo Inteligente 2026</p>
 </header>
 
 <nav>
-<button onclick="showPage('audioguias')" id="btn-audioguias" class="active">🔊 Guías</button>
-<button onclick="showPage('hoteles')" id="btn-hoteles">🏨 Hoteles</button>
-<button onclick="showPage('gastronomia')" id="btn-gastronomia">🍴 Comida</button>
+    <button onclick="showPage('audioguias')" id="btn-audioguias" class="active">🔊 Guías</button>
+    <button onclick="showPage('hoteles')" id="btn-hoteles">🏨 Hoteles</button>
+    <button onclick="showPage('gastronomia')" id="btn-gastronomia">🍴 Comida</button>
 </nav>
 
 <div class="container">
 
-<div id="audioguias" class="page active">
-<div id="monumentos-grid">
+    <div id="audioguias" class="page active">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="playAudio(this,'mineros.m4a','Monumento al Minero')">
+                <img src="https://i.ibb.co/XZC16zNL/mineros.jpg">
+                <h3>Monumento al Minero</h3>
+            </div>
+            </div>
+    </div>
 
-<div class="card-mini" onclick="playAudio(this,'mineros.m4a','Monumento al Minero')">
-<img src="https://i.ibb.co/XZC16zNL/mineros.jpg">
-<h3>Monumento al Minero</h3>
-</div>
+    <div id="hoteles" class="page">
+        <div id="lista-hoteles" class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Hotel del Valle', 'https://via.placeholder.com/400x200', '📍 Av. Mineros 123', '📞 2902-421000', 'Contamos con Wi-Fi, desayuno bufet y la mejor vista a la montaña.')">
+                <img src="https://via.placeholder.com/150">
+                <h3>Hotel del Valle</h3>
+            </div>
+        </div>
+    </div>
 
-<div class="card-mini" onclick="playAudio(this,'','Bosque de Duendes')">
-<img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80">
-<h3>Bosque de Duendes</h3>
-</div>
+    <div id="gastronomia" class="page">
+        <div id="lista-gastronomia" class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Parrilla El Carbón', 'https://via.placeholder.com/400x200', '📍 Centro Cívico', '🍴 Parrilla y Minutas', 'Especialistas en cordero patagónico al asador.')">
+                <img src="https://via.placeholder.com/150">
+                <h3>Parrilla El Carbón</h3>
+            </div>
+        </div>
+    </div>
 
-<div class="card-mini" onclick="playAudio(this,'','Plaza Centenario')">
-<img src="https://i.ibb.co/PnvJJ00/plaza-del-reloj.webp">
-<h3>Plaza Centenario</h3>
-</div>
-
-<div class="card-mini" onclick="playAudio(this,'','Mina Uno')">
-<img src="https://i.ibb.co/dwS2FTSS/mina-1.webp">
-<h3>Mina Uno</h3>
-</div>
-
-<div class="card-mini" onclick="playAudio(this,'','Via Crucis')">
-<img src="https://i.ibb.co/gZs4gb43/Via-Crucis.webp">
-<h3>Via Crucis</h3>
-</div>
-
-</div>
-</div>
-
-<div id="hoteles" class="page">
-<h2>Hoteles</h2>
-<div class="info-card">
-<img src="https://via.placeholder.com/80">
-<div class="info-text">
-<h3>Hotel Ejemplo</h3>
-<p>📍 Río Turbio</p>
-<p>📞 +54 2902 000000</p>
-</div>
-</div>
-</div>
-
-<div id="gastronomia" class="page">
-<h2>Gastronomía</h2>
-<div class="info-card">
-<img src="https://via.placeholder.com/80">
-<div class="info-text">
-<h3>Parrilla Ejemplo</h3>
-<p>📍 Centro</p>
-<p>🍴 Cordero patagónico</p>
-</div>
-</div>
-</div>
+    <div id="modulo-detalle" class="page">
+        <button class="btn-volver" onclick="volverALista()">← Volver</button>
+        <div class="detalle-comercio">
+            <img id="det-img" src="" alt="Imagen">
+            <h2 id="det-titulo">Nombre</h2>
+            <p id="det-ubicacion" style="font-weight: bold; color: var(--accent);"></p>
+            <p id="det-contacto"></p>
+            <hr>
+            <p id="det-descripcion"></p>
+        </div>
+    </div>
 
 </div>
 
 <div class="fixed-player">
-<p id="playing-title">Seleccioná un punto para escuchar</p>
-<audio id="global-player" controls style="width:100%;"></audio>
-<p id="toast" class="toast"></p>
+    <p id="playing-title">Seleccioná un punto para escuchar</p>
+    <audio id="global-player" controls style="width:100%;"></audio>
 </div>
 
 <script>
-
-function showPage(pageId){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    document.getElementById('btn-'+pageId).classList.add('active');
-}
-
-function playAudio(card,url,title){
-
-    document.querySelectorAll('.card-mini').forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
-
-    const player = document.getElementById('global-player');
-    const titleBox = document.getElementById('playing-title');
-    const toast = document.getElementById('toast');
-
-    if(!url){
-        toast.innerText = "Audio no disponible todavía";
-        titleBox.innerText = title;
-        return;
+    // Navegación principal
+    function showPage(pageId){
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.getElementById('btn-'+pageId).classList.add('active');
+        
+        // Si cambiamos de pestaña, nos aseguramos que el detalle se oculte
+        if(pageId !== 'modulo-detalle') {
+            document.querySelector('.container').dataset.lastPage = pageId;
+        }
     }
 
-    toast.innerText = "";
-    player.src = url;
-    titleBox.innerText = "Escuchando: " + title;
-    player.play();
+    // Función para mostrar el detalle del comercio
+    function verDetalle(titulo, img, ubicacion, contacto, descripcion) {
+        // Guardar de dónde venimos para volver atrás
+        const currentActive = document.querySelector('.page.active').id;
+        if(currentActive !== 'modulo-detalle') {
+            document.querySelector('.container').dataset.origin = currentActive;
+        }
 
-    document.querySelector('.fixed-player').scrollIntoView({behavior:"smooth"});
-}
+        // Llenar los datos
+        document.getElementById('det-titulo').innerText = titulo;
+        document.getElementById('det-img').src = img;
+        document.getElementById('det-ubicacion').innerText = ubicacion;
+        document.getElementById('det-contacto').innerText = contacto;
+        document.getElementById('det-descripcion').innerText = descripcion;
 
+        // Mostrar página de detalle
+        showPage('modulo-detalle');
+    }
+
+    function volverALista() {
+        const origen = document.querySelector('.container').dataset.origin || 'audioguias';
+        showPage(origen);
+    }
+
+    // Función de Audio
+    function playAudio(card, url, title){
+        document.querySelectorAll('.card-mini').forEach(c=>c.classList.remove('active'));
+        card.classList.add('active');
+        const player = document.getElementById('global-player');
+        const titleBox = document.getElementById('playing-title');
+
+        if(!url){
+            titleBox.innerText = "Audio no disponible: " + title;
+            return;
+        }
+
+        player.src = url;
+        titleBox.innerText = "Escuchando: " + title;
+        player.play();
+    }
 </script>
 
 </body>
