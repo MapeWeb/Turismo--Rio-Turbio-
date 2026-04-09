@@ -6,207 +6,220 @@
     <title>Río Turbio - Guía Inteligente</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-   <div id="monumentos">
-    <article class="card">
-        <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" class="card-img" alt="Minero">
-        <div class="card-content">
-            <h3>Monumento al Minero</h3>
-            <audio><source src="monumento al minero audio guía.m4a" type="audio/mpeg"></audio>
-        </div>
-    </article>
-
-    <article class="card">
-        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Duendes">
-        <div class="card-content">
-            <h3>Bosque de Duendes</h3>
-            <audio><source src="URL_AUDIO_2.mp3" type="audio/mpeg"></audio>
-        </div>
-    </article>
-
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 3</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 4</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 5</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 6</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 7</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 8</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 9</h3><audio><source src=""></audio></div>
-    </article>
-    <article class="card">
-        <img src="https://via.placeholder.com/150" class="card-img">
-        <div class="card-content"><h3>Punto 10</h3><audio><source src=""></audio></div>
-    </article>
-</div>
-
-        /* Reproductor Minimalista */
-        audio { width: 100%; height: 40px; margin: 15px 0; border-radius: 10px; }
-
-        /* Info de Cercanía (Lo que pediste) */
-        .extra-box {
-            background: #fff9f0;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid var(--accent);
+        :root {
+            --primary: #004a8c; /* Azul Minero */
+            --accent: #f39c12; /* Naranja Otoño */
+            --bg: #f0f2f5;
+            --light: #ffffff;
         }
 
-        .extra-box h4 { margin: 0 0 8px; font-size: 0.9rem; color: #a35d00; }
-        .extra-box p { margin: 0; font-size: 0.85rem; color: #555; }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-bottom: 100px; /* Espacio para el reproductor fijo */
+            background-color: var(--bg);
+        }
 
-        .btn-call {
-            display: block;
+        header {
             background: var(--primary);
             color: white;
+            padding: 25px 15px;
             text-align: center;
-            padding: 12px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 10px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
         }
 
-        footer { text-align: center; padding: 40px; color: #999; font-size: 0.8rem; }
+        nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+        }
 
+        nav a {
+            background: var(--light);
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+
+        /* Mapa */
+        .map-box {
+            width: 100%;
+            height: 200px;
+            background: #ddd;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Rejilla de Miniaturas */
+        #monumentos {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 10px;
+        }
+
+        .card-mini {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .card-mini:active { 
+            transform: scale(0.95); 
+            border-color: var(--accent);
+        }
+
+        .card-mini img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .card-mini h3 {
+            font-size: 0.65rem;
+            margin: 5px 2px;
+            color: var(--primary);
+            height: 30px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Reproductor Fijo Abajo */
+        .fixed-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+            z-index: 1000;
+        }
+
+        #playing-title {
+            margin: 0 0 8px 0;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        /* Ajuste para celulares */
+        @media (max-width: 600px) {
+            #monumentos { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Río Turbio</h1>
-    <p>Guía Histórica y Turística</p>
+    <p>Turismo Inteligente 2026</p>
 </header>
 
 <nav>
     <a href="#mapa">🗺️ Mapa</a>
     <a href="#monumentos">🔊 Audioguías</a>
-    <a href="#dormir">🏨 Hoteles</a>
-    <a href="#comer">🍴 Gastronomía</a>
+    <a href="#">🏨 Hoteles</a>
+    <a href="#">🍴 Comida</a>
 </nav>
 
 <div class="container">
+    <iframe id="mapa" class="map-box" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d35000!2d-72.3!3d-51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiUyA3MsKwMTgnMDAuMCJX!5e0!3m2!1ses!2sar!4v1712680000000"></iframe>
 
-    <iframe id="mapa" class="map-box" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d35000!2d-72.3!3d-51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiUyA3MsKwMTgnMDAuMCJX!5e0!3m2!1ses!2sar!4v1710000000000"></iframe>
-
-   <div id="monumentos">
-        
+    <div id="monumentos">
         <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
             <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div>
-        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div>
-        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div>
-        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div> <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div>
-        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
-        </div>
-        <div class="card-mini" onclick="playAudio('monumento al minero audio guía.m4a', 'Monumento al Minero')">
-            <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png" alt="Minero">
-            <h3>Minero</h3>
+            <h3>Monumento al Minero</h3>
         </div>
 
         <div class="card-mini" onclick="playAudio('URL_AUDIO_2.mp3', 'Bosque de Duendes')">
             <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" alt="Duendes">
-            <h3>Duendes</h3>
+            <h3>Bosque de Duendes</h3>
         </div>
 
+        <div class="card-mini" onclick="playAudio('', 'Punto 3')">
+            <img src="https://via.placeholder.com/150" alt="Punto 3">
+            <h3>Punto 3</h3>
         </div>
 
-    <div class="player-container">
-        <p id="playing-title">Seleccioná un punto para escuchar</p>
-        <audio id="main-player" controls style="width: 100%;"></audio>
-    </div>
+        <div class="card-mini" onclick="playAudio('', 'Punto 4')">
+            <img src="https://via.placeholder.com/150" alt="Punto 4">
+            <h3>Punto 4</h3>
+        </div>
 
-    <script>
-        function playAudio(url, title) {
-            const player = document.getElementById('main-player');
-            const titleDisplay = document.getElementById('playing-title');
-            player.src = url;
-            titleDisplay.innerText = "Escuchando: " + title;
-            player.play();
-        }
-    </script>
-                <div class="extra-box">
-                    <h4>❄️ Actividad cerca:</h4>
-                    <p>Centro Valdelén e inicio de senderos.</p>
-                </div>
-            </div>
-        </article>
+        <div class="card-mini" onclick="playAudio('', 'Punto 5')">
+            <img src="https://via.placeholder.com/150" alt="Punto 5">
+            <h3>Punto 5</h3>
+        </div>
 
-    </div>
+        <div class="card-mini" onclick="playAudio('', 'Punto 6')">
+            <img src="https://via.placeholder.com/150" alt="Punto 6">
+            <h3>Punto 6</h3>
+        </div>
 
-    <h2 id="dormir">Dónde Dormir</h2>
-    <div class="card">
-        <div class="card-content">
-            <h3>Hotel Río Turbio</h3>
-            <p>Ubicación céntrica con todos los servicios.</p>
-            <a href="tel:+542902421000" class="btn-call">📞 Reservar ahora</a>
+        <div class="card-mini" onclick="playAudio('', 'Punto 7')">
+            <img src="https://via.placeholder.com/150" alt="Punto 7">
+            <h3>Punto 7</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 8')">
+            <img src="https://via.placeholder.com/150" alt="Punto 8">
+            <h3>Punto 8</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 9')">
+            <img src="https://via.placeholder.com/150" alt="Punto 9">
+            <h3>Punto 9</h3>
+        </div>
+
+        <div class="card-mini" onclick="playAudio('', 'Punto 10')">
+            <img src="https://via.placeholder.com/150" alt="Punto 10">
+            <h3>Punto 10</h3>
         </div>
     </div>
-
-    <h2 id="comer">Gastronomía</h2>
-    <div class="card">
-        <div class="card-content">
-            <h3>Parrilla El Minero</h3>
-            <p>Especialistas en cordero y platos regionales.</p>
-            <a href="https://maps.google.com" class="btn-call" style="background:var(--accent)">📍 Cómo llegar</a>
-        </div>
-    </div>
-
 </div>
 
-<footer>
-    <p>Proyecto de Turismo Inteligente - Río Turbio 2026<br>Santa Cruz, Argentina</p>
-</footer>
 <div class="fixed-player">
-    <p id="playing-title" style="text-align:center; font-weight:bold; font-size:0.8rem; margin-bottom:5px; color:#004a8c;">Toca un lugar para escuchar</p>
+    <p id="playing-title">Seleccioná un punto para escuchar</p>
     <audio id="global-player" controls style="width: 100%;"></audio>
 </div>
 
 <script>
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function() {
-            const source = this.querySelector('source');
-            if(source && source.src) {
-                const player = document.getElementById('global-player');
-                const title = document.getElementById('playing-title');
-                player.src = source.src;
-                title.innerText = "Escuchando: " + this.querySelector('h3').innerText;
-                player.play();
-            }
-        });
-    });
+    function playAudio(url, title) {
+        if(!url) {
+            alert("Audio no disponible todavía");
+            return;
+        }
+        const player = document.getElementById('global-player');
+        const displayTitle = document.getElementById('playing-title');
+        player.src = url;
+        displayTitle.innerText = "Escuchando: " + title;
+        player.play();
+    }
 </script>
+
 </body>
 </html>
