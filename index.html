@@ -3,48 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Río Turbio - Guía Inteligente</title>
+    <title>Río Turbio - Guía 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; --light: #ffffff;
-        }
-
-        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 160px; background-color: var(--bg); }
-
-        header { background: var(--primary); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
-
-        nav { display: flex; justify-content: center; padding: 15px; gap: 10px; position: sticky; top: 0; z-index: 100; background: var(--bg); }
-
-        nav button { background: var(--light); color: var(--primary); border: none; padding: 10px 18px; border-radius: 25px; font-size: 0.85rem; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; }
-
+        :root { --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 160px; background: var(--bg); overflow-x: hidden; }
+        
+        header { background: var(--primary); color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
+        
+        nav { display: flex; justify-content: center; gap: 8px; padding: 15px; position: sticky; top: 0; background: var(--bg); z-index: 1000; }
+        nav button { background: white; color: var(--primary); border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         nav button.active { background: var(--primary); color: white; }
 
-        .container { padding: 15px; max-width: 900px; margin: auto; }
-
-        .page { display: none; animation: fade 0.4s ease; }
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+        .page { display: none; }
         .page.active { display: block; }
 
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Grilla Optimizada */
+        .grid-universal { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 600px) { .grid-universal { grid-template-columns: repeat(5, 1fr); } }
 
-        .grid-universal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        .card-mini { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer; text-align: center; }
+        .card-mini img { width: 100%; height: 100px; object-fit: cover; }
+        .card-mini h3 { font-size: 0.75rem; margin: 8px; color: var(--primary); }
 
-        @media (max-width: 600px) { .grid-universal { grid-template-columns: repeat(2, 1fr); } }
-
-        .card-mini { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
-        .card-mini:hover { transform: translateY(-3px); border-color: var(--accent); }
-        .card-mini img { width: 100%; height: 90px; object-fit: cover; display: block; }
-        .card-mini h3 { font-size: 0.7rem; margin: 8px 5px; color: var(--primary); height: 25px; display: flex; align-items: center; justify-content: center; }
-
-        .detalle-comercio { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .detalle-header img { width: 100%; height: 220px; object-fit: cover; }
+        /* Detalle */
+        .detalle-comercio { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .detalle-body { padding: 20px; }
-        .detalle-body h2 { color: var(--primary); margin: 0 0 10px 0; }
-        .info-item { margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-        .btn-volver { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
+        .btn-volver { background: #444; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
 
-        .fixed-player { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); border-top: 4px solid var(--primary); z-index: 1000; }
-        #playing-title { text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 8px; }
+        .fixed-player { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); border-top: 4px solid var(--primary); z-index: 2000; box-sizing: border-box; }
+        #playing-title { text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--primary); }
     </style>
 </head>
 <body>
@@ -54,47 +43,34 @@
     <p>Turismo Inteligente 2026</p>
 </header>
 
-<nav>
-    <button onclick="showPage('audioguias')" id="btn-audioguias" class="active">🔊 Guías</button>
-    <button onclick="showPage('hoteles')" id="btn-hoteles">🏨 Hoteles</button>
-    <button onclick="showPage('gastronomia')" id="btn-gastronomia">🍴 Comida</button>
+<nav id="main-nav">
+    <button onclick="showPage('audioguias')" class="nav-btn active" id="btn-audioguias">🔊 Guías</button>
+    <button onclick="showPage('hoteles')" class="nav-btn" id="btn-hoteles">🏨 Hoteles</button>
+    <button onclick="showPage('gastronomia')" class="nav-btn" id="btn-gastronomia">🍴 Comida</button>
 </nav>
 
 <div class="container">
-
     <div id="audioguias" class="page active">
         <div class="grid-universal">
-            <div class="card-mini" onclick="playAudio(this, 'mineros.m4a', 'Monumento al Minero')">
+            <div class="card-mini" onclick="playAudio('mineros.m4a', 'Monumento al Minero')">
                 <img src="https://i.ibb.co/XZC16zNL/mineros.jpg">
                 <h3>Monumento al Minero</h3>
             </div>
-            <div class="card-mini" onclick="playAudio(this, '', 'Bosque de Duendes')">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80">
-                <h3>Bosque de Duendes</h3>
-            </div>
-            <div class="card-mini" onclick="playAudio(this, '', 'Plaza Centenario')">
+            <div class="card-mini" onclick="playAudio('', 'Plaza Centenario')">
                 <img src="https://i.ibb.co/PnvJJ00/plaza-del-reloj.webp">
                 <h3>Plaza Centenario</h3>
-            </div>
-            <div class="card-mini" onclick="playAudio(this, '', 'Mina Uno')">
-                <img src="https://i.ibb.co/dwS2FTSS/mina-1.webp">
-                <h3>Mina Uno</h3>
-            </div>
-            <div class="card-mini" onclick="playAudio(this, '', 'Via Crucis')">
-                <img src="https://i.ibb.co/gZs4gb43/Via-Crucis.webp">
-                <h3>Via Crucis</h3>
             </div>
         </div>
     </div>
 
     <div id="hoteles" class="page">
         <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Un hotel con historia en la cuenca, ambiente familiar y excelente atención.')">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=150">
+            <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Hotel emblemático de la ciudad.')">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200">
                 <h3>Hotel Capipe</h3>
             </div>
-            <div class="card-mini" onclick="verDetalle('Hospedaje El Viento', 'https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=600', '📍 Calle Fagnano 23', '📞 2902 42-1500', 'Hospedaje acogedor, ideal para viajeros que buscan comodidad y cercanía al centro.')">
-                <img src="https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=150">
+            <div class="card-mini" onclick="verDetalle('Hospedaje El Viento', 'https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=400', '📍 Calle Fagnano 23', '📞 2902 42-1500', 'Cómodo y céntrico.')">
+                <img src="https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=200">
                 <h3>Hospedaje El Viento</h3>
             </div>
         </div>
@@ -102,72 +78,76 @@
 
     <div id="gastronomia" class="page">
         <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Resto El Galpón', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', '📍 Av. de los Mineros 300', '🍴 Pastas y Carnes', 'El lugar de encuentro por excelencia con platos abundantes y caseros.')">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=150">
+            <div class="card-mini" onclick="verDetalle('Resto El Galpón', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400', '📍 Av. Mineros 300', '🍴 Pastas y Carnes', 'Comida casera excelente.')">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200">
                 <h3>Resto El Galpón</h3>
             </div>
-            <div class="card-mini" onclick="verDetalle('Parrilla Nono', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600', '📍 Ruta Complementaria 20', '🍴 Parrilla Libre', 'Famosa por su asado y cordero al palo. Un clásico que no podés dejar de visitar.')">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=150">
+            <div class="card-mini" onclick="verDetalle('Parrilla Nono', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400', '📍 Ruta 20', '🍴 Parrilla', 'El mejor cordero.')">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200">
                 <h3>Parrilla Nono</h3>
             </div>
         </div>
     </div>
 
     <div id="modulo-detalle" class="page">
-        <button class="btn-volver" onclick="volverALista()">← Volver</button>
+        <button class="btn-volver" onclick="volver()">← Volver</button>
         <div class="detalle-comercio">
-            <div class="detalle-header"><img id="det-img" src=""></div>
+            <img id="det-img" style="width:100%; height:200px; object-fit:cover;">
             <div class="detalle-body">
                 <h2 id="det-titulo"></h2>
-                <div class="info-item" id="det-ubicacion" style="font-weight: bold; color: var(--accent);"></div>
-                <div class="info-item" id="det-contacto" style="color: #666;"></div>
+                <p id="det-ubi" style="font-weight:bold; color:var(--primary);"></p>
+                <p id="det-cont"></p>
                 <hr>
-                <p id="det-descripcion" style="line-height: 1.5;"></p>
+                <p id="det-desc"></p>
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="fixed-player">
-    <p id="playing-title">Seleccioná un punto para escuchar</p>
+    <p id="playing-title">Esperando audio...</p>
     <audio id="global-player" controls style="width:100%;"></audio>
 </div>
 
 <script>
-    let pestanaActual = 'audioguias';
+    let origen = 'audioguias';
 
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        const btn = document.getElementById('btn-' + pageId);
-        if (btn) {
-            btn.classList.add('active');
-            pestanaActual = pageId;
+    function showPage(id) {
+        // Ocultar todas las páginas
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        // Quitar active de botones
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        
+        // Mostrar la actual
+        const target = document.getElementById(id);
+        if(target) {
+            target.style.display = 'block';
+            if(id !== 'modulo-detalle') {
+                origen = id;
+                const btn = document.getElementById('btn-' + id);
+                if(btn) btn.classList.add('active');
+            }
         }
     }
 
-    function verDetalle(titulo, img, ubicacion, contacto, desc) {
-        document.getElementById('det-titulo').innerText = titulo;
-        document.getElementById('det-img').src = img;
-        document.getElementById('det-ubicacion').innerText = ubicacion;
-        document.getElementById('det-contacto').innerText = contacto;
-        document.getElementById('det-descripcion').innerText = desc;
+    function verDetalle(t, i, u, c, d) {
+        document.getElementById('det-titulo').innerText = t;
+        document.getElementById('det-img').src = i;
+        document.getElementById('det-ubi').innerText = u;
+        document.getElementById('det-cont').innerText = c;
+        document.getElementById('det-desc').innerText = d;
         showPage('modulo-detalle');
     }
 
-    function volverALista() { showPage(pestanaActual); }
+    function volver() { showPage(origen); }
 
-    function playAudio(card, url, title) {
-        document.querySelectorAll('.card-mini').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        const player = document.getElementById('global-player');
-        const titleBox = document.getElementById('playing-title');
-        if (!url) { titleBox.innerText = "Audio no disponible: " + title; return; }
-        player.src = url;
-        titleBox.innerText = "Escuchando: " + title;
-        player.play();
+    function playAudio(url, title) {
+        const p = document.getElementById('global-player');
+        const t = document.getElementById('playing-title');
+        if(!url) { alert("Pronto disponible"); return; }
+        p.src = url;
+        t.innerText = "Reproduciendo: " + title;
+        p.play();
     }
 </script>
 
