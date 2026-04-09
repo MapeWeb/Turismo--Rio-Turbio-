@@ -7,137 +7,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #004a8c;
-            --accent: #f39c12;
-            --bg: #f0f2f5;
-            --light: #ffffff;
+            --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; --light: #ffffff;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding-bottom: 160px; /* Espacio para el reproductor fijo */
-            background-color: var(--bg);
-        }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 160px; background-color: var(--bg); }
 
-        /* HEADER */
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 25px 15px;
-            text-align: center;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-        }
+        header { background: var(--primary); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
 
-        /* NAVEGACIÓN PRINCIPAL */
-        nav {
-            display: flex;
-            justify-content: center;
-            padding: 15px;
-            gap: 10px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg);
-        }
+        nav { display: flex; justify-content: center; padding: 15px; gap: 10px; position: sticky; top: 0; z-index: 100; background: var(--bg); }
 
-        nav button {
-            background: var(--light);
-            color: var(--primary);
-            border: none;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: 0.3s;
-        }
+        nav button { background: var(--light); color: var(--primary); border: none; padding: 10px 18px; border-radius: 25px; font-size: 0.85rem; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; }
 
-        nav button.active {
-            background: var(--primary);
-            color: white;
-        }
+        nav button.active { background: var(--primary); color: white; }
 
-        .container {
-            padding: 15px;
-            max-width: 900px;
-            margin: auto;
-        }
+        .container { padding: 15px; max-width: 900px; margin: auto; }
 
-        /* PÁGINAS Y ANIMACIONES */
         .page { display: none; animation: fade 0.4s ease; }
         .page.active { display: block; }
 
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* GRILLA UNIVERSAL (Se usa en Guías, Hoteles y Comida) */
-        .grid-universal {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-        }
+        .grid-universal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
 
-        @media (max-width: 600px) {
-            .grid-universal { grid-template-columns: repeat(2, 1fr); }
-        }
+        @media (max-width: 600px) { .grid-universal { grid-template-columns: repeat(2, 1fr); } }
 
-        /* TARJETAS */
-        .card-mini {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 2px solid transparent;
-        }
-
+        .card-mini { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
         .card-mini:hover { transform: translateY(-3px); border-color: var(--accent); }
-        .card-mini.active { border: 2px solid var(--accent); }
         .card-mini img { width: 100%; height: 90px; object-fit: cover; display: block; }
         .card-mini h3 { font-size: 0.7rem; margin: 8px 5px; color: var(--primary); height: 25px; display: flex; align-items: center; justify-content: center; }
 
-        /* MÓDULO DE DETALLE DEL COMERCIO */
-        .detalle-comercio {
-            background: white;
-            border-radius: 20px;
-            padding: 0;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
+        .detalle-comercio { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .detalle-header img { width: 100%; height: 220px; object-fit: cover; }
         .detalle-body { padding: 20px; }
         .detalle-body h2 { color: var(--primary); margin: 0 0 10px 0; }
         .info-item { margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-        .btn-volver {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .btn-volver { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
 
-        /* REPRODUCTOR FIJO */
-        .fixed-player {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 15px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            border-top: 4px solid var(--primary);
-            z-index: 1000;
-        }
-
+        .fixed-player { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); border-top: 4px solid var(--primary); z-index: 1000; }
         #playing-title { text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 8px; }
     </style>
 </head>
@@ -183,99 +89,5 @@
 
     <div id="hoteles" class="page">
         <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Hotel del Valle', 'https://via.placeholder.com/600x400', '📍 Av. Principal 123', '📞 2902-421000', 'Ofrecemos habitaciones confortables con calefacción central y desayuno regional incluido.')">
-                <img src="https://via.placeholder.com/150">
-                <h3>Hotel del Valle</h3>
-            </div>
-        </div>
-    </div>
-
-    <div id="gastronomia" class="page">
-        <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Parrilla El Minero', 'https://via.placeholder.com/600x400', '📍 Calle Minería 45', '🍴 Especialidad: Cordero', 'La mejor parrilla de la cuenca carbonífera con atención personalizada.')">
-                <img src="https://via.placeholder.com/150">
-                <h3>Parrilla El Minero</h3>
-            </div>
-        </div>
-    </div>
-
-    <div id="modulo-detalle" class="page">
-        <button class="btn-volver" onclick="volverALista()">← Volver a la lista</button>
-        <div class="detalle-comercio">
-            <div class="detalle-header">
-                <img id="det-img" src="" alt="Imagen del comercio">
-            </div>
-            <div class="detalle-body">
-                <h2 id="det-titulo">Nombre del Comercio</h2>
-                <div class="info-item" id="det-ubicacion"></div>
-                <div class="info-item" id="det-contacto"></div>
-                <hr>
-                <p id="det-descripcion" style="line-height: 1.6; color: #444;"></p>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div class="fixed-player">
-    <p id="playing-title">Seleccioná un punto para escuchar</p>
-    <audio id="global-player" controls style="width:100%;"></audio>
-</div>
-
-<script>
-    // Variable para saber de qué pestaña venimos
-    let ultimaPagina = 'audioguias';
-
-    function showPage(pageId) {
-        // Ocultar todas
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-
-        // Mostrar seleccionada
-        document.getElementById(pageId).classList.add('active');
-        
-        // Marcar botón si es una de las 3 principales
-        const btn = document.getElementById('btn-' + pageId);
-        if (btn) {
-            btn.classList.add('active');
-            ultimaPagina = pageId; // Guardamos la pestaña actual
-        }
-    }
-
-    function verDetalle(titulo, img, ubicacion, contacto, desc) {
-        // Llenar datos en el módulo de detalle
-        document.getElementById('det-titulo').innerText = titulo;
-        document.getElementById('det-img').src = img;
-        document.getElementById('det-ubicacion').innerText = ubicacion;
-        document.getElementById('det-contacto').innerText = contacto;
-        document.getElementById('det-descripcion').innerText = desc;
-
-        // Cambiar a la "página" de detalle
-        showPage('modulo-detalle');
-    }
-
-    function volverALista() {
-        showPage(ultimaPagina);
-    }
-
-    function playAudio(card, url, title) {
-        // Resaltar tarjeta seleccionada
-        document.querySelectorAll('.card-mini').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-
-        const player = document.getElementById('global-player');
-        const titleBox = document.getElementById('playing-title');
-
-        if (!url) {
-            titleBox.innerText = "Audio pronto disponible: " + title;
-            return;
-        }
-
-        player.src = url;
-        titleBox.innerText = "Escuchando: " + title;
-        player.play();
-    }
-</script>
-
-</body>
-</html>
+            <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Un hotel con historia en la cuenca, ambiente familiar y excelente atención.')">
+                <img src="
