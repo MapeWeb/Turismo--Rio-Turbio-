@@ -7,44 +7,138 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; --light: #ffffff;
+            --primary: #004a8c;
+            --accent: #f39c12;
+            --bg: #f0f2f5;
+            --light: #ffffff;
         }
 
-        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 140px; background-color: var(--bg); }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-bottom: 160px; /* Espacio para el reproductor fijo */
+            background-color: var(--bg);
+        }
 
-        header { background: var(--primary); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
+        /* HEADER */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
 
-        nav { display: flex; justify-content: center; padding: 15px; gap: 10px; position: sticky; top: 0; z-index: 100; background: var(--bg); }
+        /* NAVEGACIÓN PRINCIPAL */
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+        }
 
-        nav button { background: var(--light); color: var(--primary); border: none; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        nav button {
+            background: var(--light);
+            color: var(--primary);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
 
-        nav button.active { background: var(--primary); color: white; }
+        nav button.active {
+            background: var(--primary);
+            color: white;
+        }
 
-        .container { padding: 15px; max-width: 900px; margin: auto; }
+        .container {
+            padding: 15px;
+            max-width: 900px;
+            margin: auto;
+        }
 
-        .page { display: none; animation: fade 0.3s ease; }
+        /* PÁGINAS Y ANIMACIONES */
+        .page { display: none; animation: fade 0.4s ease; }
         .page.active { display: block; }
 
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* GRID REUTILIZABLE */
-        .grid-universal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        /* GRILLA UNIVERSAL (Se usa en Guías, Hoteles y Comida) */
+        .grid-universal {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
 
-        .card-mini { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
-        .card-mini:hover { transform: translateY(-3px); }
-        .card-mini img { width: 100%; height: 85px; object-fit: cover; }
-        .card-mini h3 { font-size: 0.65rem; margin: 5px; color: var(--primary); }
+        @media (max-width: 600px) {
+            .grid-universal { grid-template-columns: repeat(2, 1fr); }
+        }
 
-        /* FICHA DE DETALLE (EL NUEVO MÓDULO) */
-        .detalle-comercio { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .detalle-comercio img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
-        .detalle-comercio h2 { color: var(--primary); margin: 15px 0 5px 0; }
-        .btn-volver { background: #eee; border: none; padding: 8px 15px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
+        /* TARJETAS */
+        .card-mini {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
 
-        .fixed-player { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); border-top: 4px solid var(--primary); z-index: 1000; }
-        #playing-title { text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 5px;}
+        .card-mini:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .card-mini.active { border: 2px solid var(--accent); }
+        .card-mini img { width: 100%; height: 90px; object-fit: cover; display: block; }
+        .card-mini h3 { font-size: 0.7rem; margin: 8px 5px; color: var(--primary); height: 25px; display: flex; align-items: center; justify-content: center; }
 
-        @media (max-width: 600px) { .grid-universal { grid-template-columns: repeat(2, 1fr); } }
+        /* MÓDULO DE DETALLE DEL COMERCIO */
+        .detalle-comercio {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .detalle-header img { width: 100%; height: 220px; object-fit: cover; }
+        .detalle-body { padding: 20px; }
+        .detalle-body h2 { color: var(--primary); margin: 0 0 10px 0; }
+        .info-item { margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+        .btn-volver {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* REPRODUCTOR FIJO */
+        .fixed-player {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+            z-index: 1000;
+        }
+
+        #playing-title { text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -64,16 +158,32 @@
 
     <div id="audioguias" class="page active">
         <div class="grid-universal">
-            <div class="card-mini" onclick="playAudio(this,'mineros.m4a','Monumento al Minero')">
+            <div class="card-mini" onclick="playAudio(this, 'mineros.m4a', 'Monumento al Minero')">
                 <img src="https://i.ibb.co/XZC16zNL/mineros.jpg">
                 <h3>Monumento al Minero</h3>
             </div>
+            <div class="card-mini" onclick="playAudio(this, '', 'Bosque de Duendes')">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80">
+                <h3>Bosque de Duendes</h3>
             </div>
+            <div class="card-mini" onclick="playAudio(this, '', 'Plaza Centenario')">
+                <img src="https://i.ibb.co/PnvJJ00/plaza-del-reloj.webp">
+                <h3>Plaza Centenario</h3>
+            </div>
+            <div class="card-mini" onclick="playAudio(this, '', 'Mina Uno')">
+                <img src="https://i.ibb.co/dwS2FTSS/mina-1.webp">
+                <h3>Mina Uno</h3>
+            </div>
+            <div class="card-mini" onclick="playAudio(this, '', 'Via Crucis')">
+                <img src="https://i.ibb.co/gZs4gb43/Via-Crucis.webp">
+                <h3>Via Crucis</h3>
+            </div>
+        </div>
     </div>
 
     <div id="hoteles" class="page">
-        <div id="lista-hoteles" class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Hotel del Valle', 'https://via.placeholder.com/400x200', '📍 Av. Mineros 123', '📞 2902-421000', 'Contamos con Wi-Fi, desayuno bufet y la mejor vista a la montaña.')">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Hotel del Valle', 'https://via.placeholder.com/600x400', '📍 Av. Principal 123', '📞 2902-421000', 'Ofrecemos habitaciones confortables con calefacción central y desayuno regional incluido.')">
                 <img src="https://via.placeholder.com/150">
                 <h3>Hotel del Valle</h3>
             </div>
@@ -81,23 +191,27 @@
     </div>
 
     <div id="gastronomia" class="page">
-        <div id="lista-gastronomia" class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Parrilla El Carbón', 'https://via.placeholder.com/400x200', '📍 Centro Cívico', '🍴 Parrilla y Minutas', 'Especialistas en cordero patagónico al asador.')">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Parrilla El Minero', 'https://via.placeholder.com/600x400', '📍 Calle Minería 45', '🍴 Especialidad: Cordero', 'La mejor parrilla de la cuenca carbonífera con atención personalizada.')">
                 <img src="https://via.placeholder.com/150">
-                <h3>Parrilla El Carbón</h3>
+                <h3>Parrilla El Minero</h3>
             </div>
         </div>
     </div>
 
     <div id="modulo-detalle" class="page">
-        <button class="btn-volver" onclick="volverALista()">← Volver</button>
+        <button class="btn-volver" onclick="volverALista()">← Volver a la lista</button>
         <div class="detalle-comercio">
-            <img id="det-img" src="" alt="Imagen">
-            <h2 id="det-titulo">Nombre</h2>
-            <p id="det-ubicacion" style="font-weight: bold; color: var(--accent);"></p>
-            <p id="det-contacto"></p>
-            <hr>
-            <p id="det-descripcion"></p>
+            <div class="detalle-header">
+                <img id="det-img" src="" alt="Imagen del comercio">
+            </div>
+            <div class="detalle-body">
+                <h2 id="det-titulo">Nombre del Comercio</h2>
+                <div class="info-item" id="det-ubicacion"></div>
+                <div class="info-item" id="det-contacto"></div>
+                <hr>
+                <p id="det-descripcion" style="line-height: 1.6; color: #444;"></p>
+            </div>
         </div>
     </div>
 
@@ -109,52 +223,51 @@
 </div>
 
 <script>
-    // Navegación principal
-    function showPage(pageId){
-        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    // Variable para saber de qué pestaña venimos
+    let ultimaPagina = 'audioguias';
+
+    function showPage(pageId) {
+        // Ocultar todas
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+        // Mostrar seleccionada
         document.getElementById(pageId).classList.add('active');
-        document.getElementById('btn-'+pageId).classList.add('active');
         
-        // Si cambiamos de pestaña, nos aseguramos que el detalle se oculte
-        if(pageId !== 'modulo-detalle') {
-            document.querySelector('.container').dataset.lastPage = pageId;
+        // Marcar botón si es una de las 3 principales
+        const btn = document.getElementById('btn-' + pageId);
+        if (btn) {
+            btn.classList.add('active');
+            ultimaPagina = pageId; // Guardamos la pestaña actual
         }
     }
 
-    // Función para mostrar el detalle del comercio
-    function verDetalle(titulo, img, ubicacion, contacto, descripcion) {
-        // Guardar de dónde venimos para volver atrás
-        const currentActive = document.querySelector('.page.active').id;
-        if(currentActive !== 'modulo-detalle') {
-            document.querySelector('.container').dataset.origin = currentActive;
-        }
-
-        // Llenar los datos
+    function verDetalle(titulo, img, ubicacion, contacto, desc) {
+        // Llenar datos en el módulo de detalle
         document.getElementById('det-titulo').innerText = titulo;
         document.getElementById('det-img').src = img;
         document.getElementById('det-ubicacion').innerText = ubicacion;
         document.getElementById('det-contacto').innerText = contacto;
-        document.getElementById('det-descripcion').innerText = descripcion;
+        document.getElementById('det-descripcion').innerText = desc;
 
-        // Mostrar página de detalle
+        // Cambiar a la "página" de detalle
         showPage('modulo-detalle');
     }
 
     function volverALista() {
-        const origen = document.querySelector('.container').dataset.origin || 'audioguias';
-        showPage(origen);
+        showPage(ultimaPagina);
     }
 
-    // Función de Audio
-    function playAudio(card, url, title){
-        document.querySelectorAll('.card-mini').forEach(c=>c.classList.remove('active'));
+    function playAudio(card, url, title) {
+        // Resaltar tarjeta seleccionada
+        document.querySelectorAll('.card-mini').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
+
         const player = document.getElementById('global-player');
         const titleBox = document.getElementById('playing-title');
 
-        if(!url){
-            titleBox.innerText = "Audio no disponible: " + title;
+        if (!url) {
+            titleBox.innerText = "Audio pronto disponible: " + title;
             return;
         }
 
