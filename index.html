@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Río Turbio - Guía Inteligente</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-         
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-
+            --primary: #004a8c; 
+            --accent: #f39c12; 
+            --bg: #f0f2f5;
+            --light: #ffffff;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding-bottom: 150px; /* Espacio para el reproductor */
+            padding-bottom: 140px;
             background-color: var(--bg);
         }
 
@@ -47,11 +46,11 @@
             background: var(--light);
             color: var(--primary);
             border: none;
-            padding: 10px 15px;
+            padding: 8px 18px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             cursor: pointer;
         }
 
@@ -60,20 +59,19 @@
             color: white;
         }
 
-        .container { padding: 15px; max-width: 800px; margin: auto; }
+        .container {
+            padding: 15px;
+            max-width: 800px;
+            margin: auto;
+        }
 
         .page { display: none; }
         .page.active { display: block; }
 
-        /* Rejilla de Monumentos */
         #monumentos-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px;
-        }
-
-        @media (min-width: 600px) {
-            #monumentos-grid { grid-template-columns: repeat(5, 1fr); }
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
         }
 
         .card-mini {
@@ -85,23 +83,84 @@
             cursor: pointer;
         }
 
-        .card-mini img { width: 100%; height: 90px; object-fit: cover; }
-        .card-mini h3 { font-size: 0.7rem; padding: 8px 2px; color: var(--primary); margin: 0; }
-
-        /* Reproductor Global */
-        .fixed-player {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--accent);
-            z-index: 2000;
+        /* 🔥 MEJORA DE IMAGEN */
+        .card-mini img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
         }
 
-        #playing-title { margin: 0 0 10px 0; font-size: 0.9rem; font-weight: bold; color: var(--primary); text-align: center; }
+        .card-mini h3 {
+            font-size: 0.65rem;
+            margin: 5px 2px;
+            color: var(--primary);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .info-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .info-text h3 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .info-text p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .fixed-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+            z-index: 1000;
+        }
+
+        #playing-title {
+            margin: 0 0 8px 0;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            #monumentos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
+
 <body>
 
 <header>
@@ -116,40 +175,44 @@
 </nav>
 
 <div class="container">
-    
+
     <div id="audioguias" class="page active">
         <div id="monumentos-grid">
+
             <div class="card-mini" onclick="playAudio('mineros.m4a', 'Monumento al Minero')">
-                <img src="https://i.ibb.co/21ky25s2/Sin-monumento-minero.png">
+                <img src="https://images.unsplash.com/photo-1601758064223-8cdb1c46f7c7?auto=format&fit=crop&w=800&q=80">
                 <h3>Monumento al Minero</h3>
             </div>
+
             <div class="card-mini" onclick="playAudio('', 'Bosque de Duendes')">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80">
                 <h3>Bosque de Duendes</h3>
             </div>
+
             <div class="card-mini" onclick="playAudio('', 'Plaza Centenario')">
                 <img src="https://i.ibb.co/PnvJJ00/plaza-del-reloj.webp">
                 <h3>Plaza Centenario</h3>
             </div>
+
             <div class="card-mini" onclick="playAudio('', 'Mina Uno')">
                 <img src="https://i.ibb.co/dwS2FTSS/mina-1.webp">
                 <h3>Mina Uno</h3>
             </div>
+
             <div class="card-mini" onclick="playAudio('', 'Via Crucis')">
                 <img src="https://i.ibb.co/gZs4gb43/Via-Crucis.webp">
                 <h3>Via Crucis</h3>
             </div>
+
         </div>
     </div>
 
     <div id="hoteles" class="page">
         <h2>Hotelería</h2>
-        <p>Próximamente información de alojamientos.</p>
     </div>
 
     <div id="gastronomia" class="page">
         <h2>Gastronomía</h2>
-        <p>Próximamente los mejores lugares para comer.</p>
     </div>
 
 </div>
@@ -161,38 +224,22 @@
 
 <script>
     function showPage(pageId) {
-        // Oculta todas las páginas
-        const pages = document.getElementsByClassName('page');
-        for (let i = 0; i < pages.length; i++) {
-            pages[i].classList.remove('active');
-        }
-        // Quita el color de los botones
-        const buttons = document.querySelectorAll('nav button');
-        buttons.forEach(btn => btn.classList.remove('active'));
-
-        // Muestra la seleccionada
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         document.getElementById('btn-' + pageId).classList.add('active');
     }
 
     function playAudio(url, title) {
-        const player = document.getElementById('global-player');
-        const displayTitle = document.getElementById('playing-title');
-
-        if(!url || url === '') {
-            alert("El audio de '" + title + "' estará disponible pronto.");
+        if (!url) {
+            alert("Audio no disponible todavía");
             return;
         }
-
-        // Importante: No mover el reproductor, solo cambiar la fuente
+        const player = document.getElementById('global-player');
+        const displayTitle = document.getElementById('playing-title');
         player.src = url;
         displayTitle.innerText = "Reproduciendo: " + title;
-        
-        // Intentar reproducir
-        player.play().catch(error => {
-            console.log("Error al reproducir: ", error);
-            alert("No se pudo cargar el archivo de audio. Verifica que el nombre sea exacto en GitHub.");
-        });
+        player.play();
     }
 </script>
 
