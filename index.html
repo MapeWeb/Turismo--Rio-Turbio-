@@ -99,43 +99,67 @@
         </div>
     </div>
 
-    <div id="gastronomia" class="page">
-        <div class="grid-universal">
-            <div class="card-mini" onclick="verRestaurante('Puro Sur', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg', ['https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-1.jpg', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-2.jpg'], '📍 Hotel Patagonia', 'Experiencia gourmet con los mejores sabores patagónicos.', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/carta-puro-sur.pdf')">
-                <img src="https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg">
-                <h3>Puro Sur</h3>
-            </div>
-            <div class="card-mini" onclick="verRestaurante('Resto El Galpón', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', [], '📍 Av. Mineros 300', 'Comida casera, pastas y carnes en un ambiente familiar.', '')">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200">
-                <h3>Resto El Galpón</h3>
-            </div>
+    /* --- SECCIÓN GASTRONOMÍA ACTUALIZADA --- */
+<div id="gastronomia" class="page">
+    <div class="grid-universal">
+        <div class="card-mini" onclick="verRestaurante(
+            'Puro Sur - Hotel Patagonia', 
+            'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg', 
+            ['https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-1.jpg', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-2.jpg'],
+            '📍 Av. de los Mineros s/n', 
+            'Puro Sur ofrece una experiencia gourmet única en la Cuenca Carbonífera. Cocina de autor con sabores patagónicos auténticos en un ambiente exclusivo.',
+            'Puro-Sur-Abril-2026.pdf' /* <--- Enlace actualizado al archivo que cargaste */
+        )">
+            <img src="https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg">
+            <h3>Puro Sur</h3>
         </div>
-    </div>
 
-    <div id="modulo-detalle" class="page">
-        <button class="btn-volver" onclick="volver()">← Volver</button>
-        <div class="detalle-comercio">
-            <img id="det-img-principal" class="foto-principal" src="">
-            <div id="det-galeria" class="galeria-fotos"></div>
-            <div class="detalle-body">
-                <h2 id="det-titulo"></h2>
-                <p id="det-ubi" style="font-weight:bold; color:var(--primary);"></p>
-                <div class="resena"><p id="det-resena"></p></div>
-                <div class="menu-actions" id="acciones-gastronomia">
-                    <a id="link-ver" target="_blank" class="btn-menu btn-ver">👁️ Ver Menú</a>
-                    <a id="link-descargar" download class="btn-menu btn-descargar">📥 Descargar</a>
-                </div>
-            </div>
+        <div class="card-mini" onclick="verRestaurante(
+            'Resto El Galpón', 
+            'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', 
+            [],
+            '📍 Av. Mineros 300', 
+            'Comida casera, pastas y carnes en un ambiente familiar y acogedor.',
+            '' /* Deja vacío si no tiene PDF aún */
+        )">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200">
+            <h3>Resto El Galpón</h3>
         </div>
     </div>
 </div>
 
-<div class="fixed-player" id="player-container">
-    <p id="playing-title">Reproduciendo...</p>
-    <audio id="global-player" controls style="width:100%;"></audio>
-</div>
-
+/* --- FUNCIÓN DE NAVEGACIÓN CORREGIDA --- */
 <script>
+    function verRestaurante(titulo, imgP, galeria, ubi, resena, pdf) {
+        document.getElementById('det-titulo').innerText = titulo;
+        document.getElementById('det-img-principal').src = imgP;
+        document.getElementById('det-ubi').innerText = ubi;
+        document.getElementById('det-resena').innerText = resena;
+        
+        // Limpiar y cargar galería
+        const galContainer = document.getElementById('det-galeria');
+        galContainer.innerHTML = "";
+        if(galeria && galeria.length > 0) {
+            galeria.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.onclick = () => document.getElementById('det-img-principal').src = src;
+                galContainer.appendChild(img);
+            });
+        }
+
+        // Control de botones de menú
+        const acciones = document.getElementById('acciones-gastronomia');
+        if(pdf && pdf !== "") {
+            acciones.style.display = 'flex';
+            document.getElementById('link-ver').href = pdf;
+            document.getElementById('link-descargar').href = pdf;
+        } else {
+            acciones.style.display = 'none';
+        }
+        showPage('modulo-detalle');
+    }
+</script>
     let origen = 'audioguias';
     const playerContainer = document.getElementById('player-container');
     const globalPlayer = document.getElementById('global-player');
