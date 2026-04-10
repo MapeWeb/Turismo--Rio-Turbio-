@@ -26,10 +26,25 @@
         .card-mini img { width: 100%; height: 100px; object-fit: cover; }
         .card-mini h3 { font-size: 0.75rem; margin: 8px; color: var(--primary); min-height: 30px; display: flex; align-items: center; justify-content: center; }
 
-        /* REPRODUCTOR DINÁMICO MEJORADO */
+        /* ESTILOS MÓDULO DETALLE (LANDING) */
+        .detalle-comercio { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .galeria-fotos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; background: #eee; }
+        .galeria-fotos img { width: 100%; height: 80px; object-fit: cover; cursor: pointer; }
+        .foto-principal { width: 100%; height: 250px; object-fit: cover; }
+        
+        .detalle-body { padding: 20px; }
+        .resena { line-height: 1.6; color: #444; margin: 15px 0; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--accent); border-radius: 4px; }
+        
+        .menu-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-menu { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 0.85rem; }
+        .btn-ver { background: var(--primary); color: white; }
+        .btn-descargar { background: #27ae60; color: white; }
+        .btn-volver { background: #444; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
+
+        /* REPRODUCTOR DINÁMICO */
         .fixed-player { 
             position: fixed; 
-            bottom: -200px; /* Escondido fuera de pantalla */
+            bottom: -200px; 
             left: 0;
             width: 100%; 
             background: white; 
@@ -40,9 +55,7 @@
             box-sizing: border-box;
             transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .fixed-player.visible { bottom: 0; }
-
         #playing-title { text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--primary); }
     </style>
 </head>
@@ -84,7 +97,66 @@
             </div>
         </div>
     </div>
+
+    <div id="hoteles" class="page">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Hotel con gran historia en la ciudad.')">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200">
+                <h3>Hotel Capipe</h3>
+            </div>
+            <div class="card-mini" onclick="verDetalle('Hospedaje El Viento', 'https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=600', '📍 Calle Fagnano 23', '📞 2902 42-1500', 'Cómodo y céntrico.')">
+                <img src="https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=200">
+                <h3>Hospedaje El Viento</h3>
+            </div>
+        </div>
     </div>
+
+    <div id="gastronomia" class="page">
+        <div class="grid-universal">
+            <div class="card-mini" onclick="verRestaurante(
+                'Puro Sur - Hotel Patagonia', 
+                'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg', 
+                ['https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-1.jpg', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-2.jpg', 'https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-3.jpg'],
+                '📍 Av. Mineros s/n', 
+                'Puro Sur ofrece una experiencia gourmet única. Cocina de autor con los mejores productos de la Patagonia en un ambiente exclusivo.',
+                'https://hotel-patagonia.com/wp-content/uploads/2021/07/carta-puro-sur.pdf'
+            )">
+                <img src="https://hotel-patagonia.com/wp-content/uploads/2021/07/puro-sur-restaurante.jpg">
+                <h3>Puro Sur</h3>
+            </div>
+            <div class="card-mini" onclick="verRestaurante(
+                'Resto El Galpón', 
+                'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', 
+                ['https://images.unsplash.com/photo-1550966841-3ee5ad0e10ad?w=200', 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200'],
+                '📍 Av. Mineros 300', 
+                'Excelente gastronomía local con platos caseros, abundantes y un ambiente familiar.',
+                '#'
+            )">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200">
+                <h3>Resto El Galpón</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="modulo-detalle" class="page">
+        <button class="btn-volver" onclick="volver()">← Volver</button>
+        <div class="detalle-comercio">
+            <img id="det-img-principal" class="foto-principal" src="">
+            <div id="det-galeria" class="galeria-fotos"></div>
+            <div class="detalle-body">
+                <h2 id="det-titulo"></h2>
+                <p id="det-ubi" style="font-weight:bold; color:var(--primary);"></p>
+                <div class="resena">
+                    <p id="det-resena"></p>
+                </div>
+                <div class="menu-actions" id="acciones-gastronomia" style="display:none;">
+                    <a id="link-ver" target="_blank" class="btn-menu btn-ver">👁️ Ver Menú</a>
+                    <a id="link-descargar" download class="btn-menu btn-descargar">📥 Descargar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="fixed-player" id="player-container">
     <p id="playing-title">Reproduciendo...</p>
@@ -100,43 +172,53 @@
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         const target = document.getElementById(id);
-        if(target) {
-            target.style.display = 'block';
-            if(id !== 'modulo-detalle') {
-                origen = id;
-                const btn = document.getElementById('btn-' + id);
-                if(btn) btn.classList.add('active');
-            }
-        }
+        if(target) { target.style.display = 'block'; if(id !== 'modulo-detalle') { origen = id; const btn = document.getElementById('btn-' + id); if(btn) btn.classList.add('active'); } }
         window.scrollTo(0,0);
     }
 
-    function playAudio(url, title) {
-        const t = document.getElementById('playing-title');
-        if(!url) { alert("Audio pronto disponible para " + title); return; }
+    function verDetalle(titulo, img, ubi, contacto, desc) {
+        document.getElementById('det-titulo').innerText = titulo;
+        document.getElementById('det-img-principal').src = img;
+        document.getElementById('det-ubi').innerText = ubi + " | " + contacto;
+        document.getElementById('det-resena').innerText = desc;
+        document.getElementById('det-galeria').innerHTML = ""; 
+        document.getElementById('acciones-gastronomia').style.display = 'none';
+        showPage('modulo-detalle');
+    }
 
-        // Mostrar con clase CSS para mejor control
+    function verRestaurante(titulo, imgP, galeria, ubi, resena, pdf) {
+        verDetalle(titulo, imgP, ubi, "", resena);
+        document.getElementById('acciones-gastronomia').style.display = 'flex';
+        document.getElementById('link-ver').href = pdf;
+        document.getElementById('link-descargar').href = pdf;
+        const galContainer = document.getElementById('det-galeria');
+        galeria.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.onclick = () => document.getElementById('det-img-principal').src = src;
+            galContainer.appendChild(img);
+        });
+    }
+
+    function volver() { showPage(origen); }
+
+    function playAudio(url, title) {
+        if(!url) { alert("Audio pronto disponible"); return; }
         playerContainer.classList.add('visible');
         document.body.style.paddingBottom = '160px'; 
-        
         globalPlayer.src = url;
-        t.innerText = "Reproduciendo: " + title;
+        document.getElementById('playing-title').innerText = "Reproduciendo: " + title;
         globalPlayer.play();
     }
 
-    // FUNCIÓN DE CIERRE AUTOMÁTICO REFORZADA
     function cerrarReproductor() {
         playerContainer.classList.remove('visible');
         document.body.style.paddingBottom = '20px';
         globalPlayer.pause();
-        globalPlayer.src = ""; // Limpia el archivo cargado
+        globalPlayer.src = "";
     }
 
     globalPlayer.onended = cerrarReproductor;
-
-    // También se cierra si hay un error al cargar
-    globalPlayer.onerror = cerrarReproductor;
 </script>
-
 </body>
 </html>
