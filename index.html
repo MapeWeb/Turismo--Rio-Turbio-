@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #004a8c; --accent: #f39c12; --bg: #f0f2f5; }
-        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 20px; background: var(--bg); overflow-x: hidden; transition: padding 0.3s; }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 20px; background: var(--bg); overflow-x: hidden; transition: all 0.3s ease; }
         
         header { background: var(--primary); color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
         
@@ -17,7 +17,6 @@
 
         .container { padding: 15px; max-width: 850px; margin: auto; }
         .page { display: none; animation: fadeIn 0.3s ease; }
-        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .grid-universal { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -27,14 +26,11 @@
         .card-mini img { width: 100%; height: 100px; object-fit: cover; }
         .card-mini h3 { font-size: 0.75rem; margin: 8px; color: var(--primary); min-height: 30px; display: flex; align-items: center; justify-content: center; }
 
-        .detalle-comercio { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .detalle-body { padding: 20px; }
-        .btn-volver { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
-
-        /* REPRODUCTOR DINÁMICO */
+        /* REPRODUCTOR DINÁMICO MEJORADO */
         .fixed-player { 
             position: fixed; 
-            bottom: 0; 
+            bottom: -200px; /* Escondido fuera de pantalla */
+            left: 0;
             width: 100%; 
             background: white; 
             padding: 15px; 
@@ -42,11 +38,10 @@
             border-top: 4px solid var(--primary); 
             z-index: 2000; 
             box-sizing: border-box;
-            display: none; 
-            animation: slideUp 0.4s ease;
+            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .fixed-player.visible { bottom: 0; }
 
         #playing-title { text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--primary); }
     </style>
@@ -89,47 +84,7 @@
             </div>
         </div>
     </div>
-
-    <div id="hoteles" class="page">
-        <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Hotel Capipe', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600', '📍 Julia Dufour 154', '📞 2902 42-1240', 'Hotel emblemático de la ciudad.')">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200">
-                <h3>Hotel Capipe</h3>
-            </div>
-            <div class="card-mini" onclick="verDetalle('Hospedaje El Viento', 'https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=600', '📍 Calle Fagnano 23', '📞 2902 42-1500', 'Cómodo y céntrico.')">
-                <img src="https://images.unsplash.com/photo-1551882547-ff43c63fedfe?w=200">
-                <h3>Hospedaje El Viento</h3>
-            </div>
-        </div>
     </div>
-
-    <div id="gastronomia" class="page">
-        <div class="grid-universal">
-            <div class="card-mini" onclick="verDetalle('Resto El Galpón', 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600', '📍 Av. Mineros 300', '🍴 Pastas y Carnes', 'Comida casera excelente.')">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200">
-                <h3>Resto El Galpón</h3>
-            </div>
-            <div class="card-mini" onclick="verDetalle('Parrilla Nono', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600', '📍 Ruta 20', '🍴 Parrilla', 'El mejor cordero.')">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200">
-                <h3>Parrilla Nono</h3>
-            </div>
-        </div>
-    </div>
-
-    <div id="modulo-detalle" class="page">
-        <button class="btn-volver" onclick="volver()">← Volver</button>
-        <div class="detalle-comercio">
-            <img id="det-img" style="width:100%; height:220px; object-fit:cover;">
-            <div class="detalle-body">
-                <h2 id="det-titulo"></h2>
-                <p id="det-ubi" style="font-weight:bold; color:var(--primary);"></p>
-                <p id="det-cont"></p>
-                <hr>
-                <p id="det-desc"></p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="fixed-player" id="player-container">
     <p id="playing-title">Reproduciendo...</p>
@@ -156,26 +111,12 @@
         window.scrollTo(0,0);
     }
 
-    function verDetalle(t, i, u, c, d) {
-        document.getElementById('det-titulo').innerText = t;
-        document.getElementById('det-img').src = i;
-        document.getElementById('det-ubi').innerText = u;
-        document.getElementById('det-cont').innerText = c;
-        document.getElementById('det-desc').innerText = d;
-        showPage('modulo-detalle');
-    }
-
-    function volver() { showPage(origen); }
-
     function playAudio(url, title) {
         const t = document.getElementById('playing-title');
+        if(!url) { alert("Audio pronto disponible para " + title); return; }
 
-        if(!url) { 
-            alert("Audio pronto disponible para " + title); 
-            return; 
-        }
-
-        playerContainer.style.display = 'block';
+        // Mostrar con clase CSS para mejor control
+        playerContainer.classList.add('visible');
         document.body.style.paddingBottom = '160px'; 
         
         globalPlayer.src = url;
@@ -183,11 +124,18 @@
         globalPlayer.play();
     }
 
-    // NUEVA FUNCIÓN: Ocultar cuando termine el audio
-    globalPlayer.onended = function() {
-        playerContainer.style.display = 'none';
+    // FUNCIÓN DE CIERRE AUTOMÁTICO REFORZADA
+    function cerrarReproductor() {
+        playerContainer.classList.remove('visible');
         document.body.style.paddingBottom = '20px';
-    };
+        globalPlayer.pause();
+        globalPlayer.src = ""; // Limpia el archivo cargado
+    }
+
+    globalPlayer.onended = cerrarReproductor;
+
+    // También se cierra si hay un error al cargar
+    globalPlayer.onerror = cerrarReproductor;
 </script>
 
 </body>
